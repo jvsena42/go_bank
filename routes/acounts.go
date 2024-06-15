@@ -85,3 +85,34 @@ func listAccounts(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, accounts)
 }
+
+func updateAccount(ctx *gin.Context) {
+	body := dto.UpdateAccountParameters{}
+	data, err := ctx.GetRawData()
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, "User is not defined")
+		return
+	}
+
+	err = json.Unmarshal(data, &body)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Bad Input")
+		return
+	}
+
+	err = db.UpdateAccount(body)
+
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't update the new Account.")
+	} else {
+		ctx.JSON(http.StatusOK, "Account is updated created.")
+	}
+
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't update the Account.")
+	} else {
+		ctx.JSON(http.StatusCreated, "Account is updated created.")
+	}
+}

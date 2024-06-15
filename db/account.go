@@ -26,6 +26,12 @@ LIMIT $1
 OFFSET $2;
 `
 
+const updateAccountQuery = `
+UPDATE accounts 
+SET balance = $1
+WHERE id = $2;
+`
+
 func CreateAccount(parameters dto.CreateAccountParameters) error {
 	_, err := Db.Exec(createAccountQuery, parameters.Owner, parameters.Balance, parameters.Currency)
 
@@ -68,4 +74,10 @@ func ListAccounts() ([]Account, error) {
 	}
 
 	return accounts, err
+}
+
+func UpdateAccount(parameters dto.UpdateAccountParameters) error {
+	_, err := Db.Exec(updateAccountQuery, parameters.Balance, parameters.ID)
+
+	return err
 }
