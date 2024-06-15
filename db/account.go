@@ -19,14 +19,53 @@ SELECT id, owner, balance, currency, created_at FROM accounts
 WHERE id = $1 LIMIT 1;
 `
 
+const listAccountsQuery = `
+SELECT id, owner, balance, currency, created_at FROM accounts 
+ORDER BY id
+LIMIT $1
+OFFSET $2;
+`
+
 func CreateAccount(parameters dto.CreateAccountParameters) error {
 	_, err := Db.Exec(createAccountQuery, parameters.Owner, parameters.Balance, parameters.Currency)
 
 	return err
 }
 
-func GetAccount(id int64) error {
-	_, err := Db.Exec(getAccountQuery, id)
+func GetAccount(id int64) (*Account, error) {
 
-	return err
+	row := Db.QueryRow(getAccountQuery, id)
+
+	account := &Account{}
+	err := row.Scan(&account.ID, &account.Owner, &account.Balance, &account.Currency, &account.CreatedAt)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return account, err
+}
+
+func ListAccounts() ([]Account, error) {
+	rows, err := Db.Query(listAccountsQuery)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var accounts []Account
+	for rows.Next() {
+		var account Account
+		err := rows.Scan(&account.ID, &account.Owner, &account.Balance, &account.Currency, &account.CreatedAt)
+
+		if err != nil {
+			return nil, err
+		}
+
+		accounts = append(accounts, account)
+	}
+
+	return accounts, err
 }

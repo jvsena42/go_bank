@@ -50,7 +50,7 @@ func getAccount(ctx *gin.Context) {
 		return
 	}
 
-	err = db.GetAccount(accountId)
+	account, err := db.GetAccount(accountId)
 
 	if err != nil {
 		fmt.Println(err)
@@ -65,4 +65,6 @@ func getAccount(ctx *gin.Context) {
 	} else {
 		ctx.JSON(http.StatusOK, "User is Account created.")
 	}
+
+	ctx.JSON(http.StatusOK, account)
 }
