@@ -38,7 +38,7 @@ func createAccount(ctx *gin.Context) {
 		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't create the new Account.")
 	} else {
-		ctx.JSON(http.StatusOK, "User is Account created.")
+		ctx.JSON(http.StatusCreated, "User is Account created.")
 	}
 }
 
@@ -54,6 +54,25 @@ func getAccount(ctx *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't get the account")
+	} else {
+		ctx.JSON(http.StatusOK, "User is successfully created.")
+	}
+
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't get the account")
+	}
+
+	ctx.JSON(http.StatusOK, account)
+}
+
+func listAccounts(ctx *gin.Context) {
+
+	accounts, err := db.ListAccounts()
+
+	if err != nil {
+		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't create the new Account.")
 	} else {
 		ctx.JSON(http.StatusOK, "User is successfully created.")
@@ -62,9 +81,7 @@ func getAccount(ctx *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't create the new Account.")
-	} else {
-		ctx.JSON(http.StatusOK, "User is Account created.")
 	}
 
-	ctx.JSON(http.StatusOK, account)
+	ctx.JSON(http.StatusOK, accounts)
 }
