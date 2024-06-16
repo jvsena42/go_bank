@@ -34,16 +34,7 @@ func createAccount(ctx *gin.Context) {
 		log.Println("ERROR createAccount: ", err)
 		return
 	} else {
-		ctx.JSON(http.StatusOK, "User is successfully created.")
-	}
-
-	if err != nil {
-		fmt.Println(err)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't create the new Account.")
-		log.Println("ERROR createAccount: ", err)
-		return
-	} else {
-		ctx.JSON(http.StatusCreated, "User is Account created.")
+		ctx.JSON(http.StatusOK, "Account was successfully created.")
 	}
 }
 
