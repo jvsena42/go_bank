@@ -3,6 +3,7 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -30,6 +31,8 @@ func createAccount(ctx *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't create the new Account.")
+		log.Println("ERROR createAccount: ", err)
+		return
 	} else {
 		ctx.JSON(http.StatusOK, "User is successfully created.")
 	}
@@ -37,6 +40,8 @@ func createAccount(ctx *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't create the new Account.")
+		log.Println("ERROR createAccount: ", err)
+		return
 	} else {
 		ctx.JSON(http.StatusCreated, "User is Account created.")
 	}
@@ -115,4 +120,29 @@ func updateAccount(ctx *gin.Context) {
 	} else {
 		ctx.JSON(http.StatusCreated, "Account is updated created.")
 	}
+}
+
+func deleteAccount(ctx *gin.Context) {
+	accountId, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, err)
+		return
+	}
+
+	err = db.DeleteAccount(accountId)
+
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't find the account")
+	} else {
+		ctx.JSON(http.StatusNoContent, "Account was successfully deleted.")
+	}
+
+	if err != nil {
+		fmt.Println(err)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't delete the account")
+	}
+
+	ctx.JSON(http.StatusNoContent, "Account was successfully deleted.")
 }

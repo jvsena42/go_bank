@@ -31,6 +31,10 @@ UPDATE accounts
 SET balance = $1
 WHERE id = $2;
 `
+const deleteAccountQuery = `
+DELETE FROM accounts 
+WHERE id = $1;
+`
 
 func CreateAccount(parameters dto.CreateAccountParameters) error {
 	_, err := Db.Exec(createAccountQuery, parameters.Owner, parameters.Balance, parameters.Currency)
@@ -78,6 +82,12 @@ func ListAccounts() ([]Account, error) {
 
 func UpdateAccount(parameters dto.UpdateAccountParameters) error {
 	_, err := Db.Exec(updateAccountQuery, parameters.Balance, parameters.ID)
+
+	return err
+}
+
+func DeleteAccount(accountId int64) error {
+	_, err := Db.Exec(deleteAccountQuery, accountId)
 
 	return err
 }
