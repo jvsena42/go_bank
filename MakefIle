@@ -1,9 +1,10 @@
 postgres:
     sudo docker run --name postgres12 -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgress -d postgres
-
+    sudo docker run --name postgres-server -p 6543:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=supersecretpassword -d postgres
 
 createdb:
     sudo docker exec -it postgres12 createdb --username=postgres go_bank
+    sudo docker exec -it postgres-server createdb --username=postgres go_bank
 
 dropdb:
     sudo docker exec -it postgres12 dropdb go_bank

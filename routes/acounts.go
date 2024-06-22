@@ -69,14 +69,7 @@ func listAccounts(ctx *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
-		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't create the new Account.")
-	} else {
-		ctx.JSON(http.StatusOK, "User is successfully created.")
-	}
-
-	if err != nil {
-		fmt.Println(err)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't create the new Account.")
+		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't get the new Accounts.")
 	}
 
 	ctx.JSON(http.StatusOK, accounts)
