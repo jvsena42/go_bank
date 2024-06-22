@@ -69,7 +69,7 @@ func listAccounts(ctx *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
-		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't get the new Accounts.")
+		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't get the Accounts.")
 	}
 
 	ctx.JSON(http.StatusOK, accounts)

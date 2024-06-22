@@ -21,9 +21,7 @@ WHERE id = $1 LIMIT 1;
 
 const listAccountsQuery = `
 SELECT id, owner, balance, currency, created_at FROM accounts 
-ORDER BY id
-LIMIT $1
-OFFSET $2;
+ORDER BY id;
 `
 
 const updateAccountQuery = `
