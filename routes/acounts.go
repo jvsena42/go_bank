@@ -106,13 +106,7 @@ func deleteAccount(ctx *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't find the account")
-	} else {
-		ctx.JSON(http.StatusNoContent, "Account was successfully deleted.")
-	}
-
-	if err != nil {
-		fmt.Println(err)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't delete the account")
+		return
 	}
 
 	ctx.JSON(http.StatusNoContent, "Account was successfully deleted.")
