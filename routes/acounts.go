@@ -51,13 +51,7 @@ func getAccount(ctx *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusNotFound, "Couldn't get the account")
-	} else {
-		ctx.JSON(http.StatusOK, "User is successfully created.")
-	}
-
-	if err != nil {
-		fmt.Println(err)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't get the account")
+		return
 	}
 
 	ctx.JSON(http.StatusOK, account)
