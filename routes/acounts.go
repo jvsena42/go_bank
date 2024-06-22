@@ -93,16 +93,9 @@ func updateAccount(ctx *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't update the new Account.")
-	} else {
-		ctx.JSON(http.StatusOK, "Account is updated created.")
-	}
-
-	if err != nil {
-		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't update the Account.")
 	} else {
-		ctx.JSON(http.StatusCreated, "Account is updated created.")
+		ctx.JSON(http.StatusOK, "The account was Successfuly updated")
 	}
 }
 
