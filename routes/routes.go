@@ -14,5 +14,6 @@ func RegisterRoutes(server *gin.Engine) {
 	server.POST("/entry", createEntry)
 	server.GET("/entries/:account_id", listEntries)
 
-	server.POST("/transfer", createTranfer)
+	server.POST("/transfer", createTransfer)
+	server.GET("/transfers/:account_id", listTransfers)
 }
