@@ -4,7 +4,7 @@ import (
 	"github.com/jvsena42/go_bank/dto"
 )
 
-const createAccountQuery = `
+const CreateAccountQuery = `
 INSERT INTO accounts (
 	owner,
 	balance,
@@ -14,7 +14,7 @@ INSERT INTO accounts (
 );
 `
 
-const getAccountQuery = `
+const GetAccountQuery = `
 SELECT id, owner, balance, currency, created_at FROM accounts 
 WHERE id = $1 LIMIT 1;
 `
@@ -35,14 +35,14 @@ WHERE id = $1;
 `
 
 func CreateAccount(parameters dto.CreateAccountParameters) error {
-	_, err := Db.Exec(createAccountQuery, parameters.Owner, parameters.Balance, parameters.Currency)
+	_, err := Db.Exec(CreateAccountQuery, parameters.Owner, parameters.Balance, parameters.Currency)
 
 	return err
 }
 
 func GetAccount(id int64) (*Account, error) {
 
-	row := Db.QueryRow(getAccountQuery, id)
+	row := Db.QueryRow(GetAccountQuery, id)
 
 	account := &Account{}
 	err := row.Scan(&account.ID, &account.Owner, &account.Balance, &account.Currency, &account.CreatedAt)

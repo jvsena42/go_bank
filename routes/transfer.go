@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -27,7 +28,7 @@ func createTransfer(ctx *gin.Context) {
 		return
 	}
 
-	err = db.CreateTransfer(body)
+	err = db.CreateTransfer(body, context.Background())
 
 	if err != nil {
 		log.Println("ERROR createTransfer: ", err)

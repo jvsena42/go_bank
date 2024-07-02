@@ -2,7 +2,7 @@ package db
 
 import "github.com/jvsena42/go_bank/dto"
 
-const createEntryQuery = `
+const CreateEntryQuery = `
 INSERT INTO entries (
 	account_id,
 	amount
@@ -18,7 +18,7 @@ ORDER BY created_at;
 `
 
 func CreateEntry(parameters dto.CreateEntryParamets) error {
-	_, err := Db.Exec(createEntryQuery, parameters.AccountId, parameters.Amount)
+	_, err := Db.Exec(CreateEntryQuery, parameters.AccountId, parameters.Amount)
 
 	return err
 }

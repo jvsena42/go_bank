@@ -1,6 +1,8 @@
 package db
 
 import (
+	"context"
+	"database/sql"
 	"errors"
 
 	"github.com/jvsena42/go_bank/dto"
@@ -22,16 +24,89 @@ const listTransfersQuery = `
 	ORDER BY created_at;
 `
 
-func CreateTransfer(parameters dto.CreateTransferParameters) error {
+/*
+Transfer 10 USD from account 1 to account 2
+1 - Create a transfer record with amount 10
+2 - Create an account entry for account 1 with amount -10
+3 - Create an account entry for account 2 with amount 10
+4 - Check if account 1 has enougth balance
+4 - Subtract 10 from the  balance of account 1
+5 - Add 10 to the balance of account 2
+*/
+func CreateTransfer(parameters dto.CreateTransferParameters, ctx context.Context) error {
 
 	if !parameters.IsValid() {
 		return errors.New("invalid parameters")
 	}
 
-	//TODO CHECK IF THE FromAccount is the ownwer and the ToAccount exist
-	_, err := Db.Exec(createTransferQuery, parameters.FromAccountID, parameters.ToAccountID, parameters.Amount)
+	// Get a Tx for making transaction requests.
+	tx, err := Db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
 
-	return err
+	// Defer a rollback in case anything fails.
+	defer tx.Rollback()
+
+	//Create a transfer record with amount parameters.Amount
+	_, err = tx.QueryContext(ctx, createTransferQuery, parameters.FromAccountID, parameters.ToAccountID, parameters.Amount)
+	if err != nil {
+		return err
+	}
+
+	//Create an account entry for FromAccountID 1 with amount -Amount
+	_, err = tx.QueryContext(ctx, CreateEntryQuery, parameters.FromAccountID, -parameters.Amount)
+	if err != nil {
+		return err
+	}
+
+	//Create an account entry for ToAccountID 1 with amount Amount
+	_, err = tx.QueryContext(ctx, CreateEntryQuery, parameters.ToAccountID, parameters.Amount)
+	if err != nil {
+		return err
+	}
+
+	//Get account 1
+	account1 := &Account{}
+	if err = tx.QueryRowContext(ctx, GetAccountQuery, parameters.FromAccountID).Scan(&account1); err != nil {
+		if err == sql.ErrNoRows {
+			return errors.New("account not found")
+		}
+		return err
+	}
+
+	//check if account 1 has enougth balance
+	if account1.Balance < parameters.Amount {
+		return errors.New("not enougth balance")
+	}
+
+	//Update balance from account 1
+	_, err = tx.QueryContext(ctx, updateAccountQuery, account1.Balance-parameters.Amount, parameters.FromAccountID)
+	if err != nil {
+		return err
+	}
+
+	//Get account 2
+	account2 := &Account{}
+	if err = tx.QueryRowContext(ctx, GetAccountQuery, parameters.FromAccountID).Scan(&account2); err != nil {
+		if err == sql.ErrNoRows {
+			return errors.New("account not found")
+		}
+		return err
+	}
+
+	//Update balance from account 2
+	_, err = tx.QueryContext(ctx, updateAccountQuery, account2.Balance+parameters.Amount, parameters.ToAccountID)
+	if err != nil {
+		return err
+	}
+
+	// Commit the transaction.
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func ListTransfers(accountId int64) ([]Transfer, error) {
