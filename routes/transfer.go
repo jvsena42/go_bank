@@ -32,7 +32,7 @@ func createTransfer(ctx *gin.Context) {
 
 	if err != nil {
 		log.Println("ERROR createTransfer: ", err)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, "Couldn't create the new transfer.")
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, err)
 		return
 	}
 
