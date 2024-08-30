@@ -1,19 +1,11 @@
-version: "2"
-cloud:
-    organization: ""
-    project: ""
-    hostname: ""
-sql:
-  - engine: "postgresql"
-    queries: "./db/query/"
-    schema: "./db/migration/"
-    gen:
-      go:
-        package: "github.com/jvsena42/go_bank"
-        out: "github.com/jvsena42/go_bank"
-        sql_package: "pgx/v5"
-overrides:
-    go: null
-plugins: []
-rules: []
-options: {}
+version: 1
+packages:
+  - path: "./db/sqlc"
+    name: "db"
+    engine: "postgresql"
+    schema: "./db/migrations"
+    queries: "./db/query"
+    emit_json_tags: true
+    emit_prepared_queries: false
+    emit_interface: false
+    emit_exact_table_names: false
