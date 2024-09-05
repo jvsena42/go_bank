@@ -48,11 +48,11 @@ type TransferTxParams struct {
 }
 
 type TransferTxResult struct {
-	Transfer      Transfer `json:"transfer"`
-	FromAccountID int64    `json:"from_account_id"`
-	ToAccountID   int64    `json:"to_account_id"`
-	FromEntry     Entry    `json:"from_entry"`
-	ToEntry       Entry    `json:"to_entry"`
+	Transfer    Transfer `json:"transfer"`
+	FromAccount Account  `json:"from_account_id"`
+	ToAccount   Account  `json:"to_account_id"`
+	FromEntry   Entry    `json:"from_entry"`
+	ToEntry     Entry    `json:"to_entry"`
 }
 
 /*
@@ -93,7 +93,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 			return err
 		}
 
-		//TODO UPDATE accounts balances
+		//UPDATE accounts balances
 
 		return nil
 	})
