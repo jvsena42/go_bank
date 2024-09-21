@@ -60,7 +60,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, account)
+	ctx.JSON(http.StatusOK, account)
 }
 
 type listAccountRequest struct {
