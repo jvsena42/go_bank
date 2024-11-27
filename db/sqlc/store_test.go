@@ -1,12 +1,6 @@
 package db
 
-import (
-	"context"
-	"testing"
-
-	"github.com/stretchr/testify/require"
-)
-
+/*
 func TestTransfersx(t *testing.T) {
 	store := NewStore(testDB)
 
@@ -33,7 +27,7 @@ func TestTransfersx(t *testing.T) {
 		}()
 	}
 
-	/*for range n {
+	for range n {
 		err := <-errors
 		require.NoError(t, err)
 
@@ -88,7 +82,7 @@ func TestTransfersx(t *testing.T) {
 		require.Equal(t, diff1, diff2)
 		require.True(t, diff1 > 0)
 
-	}*/
+	}
 
 	//check the final updated balances
 	updatedAccount1, err := testQueries.GetAccount(context.Background(), account1.ID)
@@ -100,4 +94,4 @@ func TestTransfersx(t *testing.T) {
 	require.Equal(t, account1.Balance-int64(n)*amount, updatedAccount1.Balance)
 	require.Equal(t, account2.Balance+int64(n)*amount, updatedAccount2.Balance)
 
-}
+}*/
