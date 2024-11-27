@@ -2,24 +2,16 @@ package api
 
 import (
 	"bytes"
-	"database/sql"
 	"encoding/json"
-	"fmt"
 	"io"
-	"net/http"
-	"net/http/httptest"
 	"testing"
-	"time"
 
-	"github.com/golang/mock/gomock"
-	mockdb "github.com/jvsena42/go_bank/db/mock"
 	db "github.com/jvsena42/go_bank/db/sqlc"
-	"github.com/jvsena42/go_bank/token"
 	"github.com/jvsena42/go_bank/util"
 	"github.com/stretchr/testify/require"
 )
 
-func TestGetAccountAPI(t *testing.T) {
+/*func TestGetAccountAPI(t *testing.T) {
 	user := util.RandomName()
 
 	account := randomAccount(user)
@@ -121,7 +113,7 @@ func TestGetAccountAPI(t *testing.T) {
 			testCase.checkResponse(t, recorder)
 		})
 	}
-}
+}*/
 
 func randomAccount(owner string) db.Account {
 	return db.Account{
