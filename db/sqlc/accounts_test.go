@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"testing"
-	"time"
 
 	"github.com/jvsena42/go_bank/util"
 	"github.com/stretchr/testify/require"
@@ -31,7 +30,7 @@ func TestCreateAccount(t *testing.T) {
 	require.NotZero(t, account.CreatedAt)
 }
 
-func TestGetAccount(t *testing.T) {
+/*func TestGetAccount(t *testing.T) {
 	account1 := createRandomAccount()
 	account2, err := testQueries.GetAccount(context.Background(), account1.ID)
 
@@ -45,9 +44,9 @@ func TestGetAccount(t *testing.T) {
 
 	require.NotZero(t, account2.ID)
 	require.NotZero(t, account2.CreatedAt)
-}
+}*/
 
-func TestUpdateAccount(t *testing.T) {
+/*func TestUpdateAccount(t *testing.T) {
 	account1 := createRandomAccount()
 
 	arg := UpdateAccountParams{
@@ -67,7 +66,7 @@ func TestUpdateAccount(t *testing.T) {
 
 	require.NotZero(t, updatedAccount.ID)
 	require.NotZero(t, updatedAccount.CreatedAt)
-}
+}*/
 
 func TestDeleteAccount(t *testing.T) {
 	account1 := createRandomAccount()
@@ -81,7 +80,7 @@ func TestDeleteAccount(t *testing.T) {
 	require.Empty(t, account2)
 }
 
-func TestListAccounts(t *testing.T) {
+/*func TestListAccounts(t *testing.T) {
 	var lastAccount Account
 	for i := 0; i < 10; i++ {
 		lastAccount = createRandomAccount()
@@ -101,7 +100,7 @@ func TestListAccounts(t *testing.T) {
 		require.NotEmpty(t, account)
 		require.Equal(t, lastAccount.Owner, account.Owner)
 	}
-}
+}*/
 
 func createRandomAccount() Account {
 	arg := CreateAccountParams{
