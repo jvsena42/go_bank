@@ -19,7 +19,7 @@ jobs:
       postgres:
         image: postgres:12
         env:
-          POSTGRES_PASSWORD: secret #TODO REPLACE BY ENVIROMENT VARIABLES
+          POSTGRES_PASSWORD: secret 
           POSTGRES_USER: root
           POSTGRES_DB: go_bank
         options: >-
